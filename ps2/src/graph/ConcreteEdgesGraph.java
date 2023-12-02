@@ -1,88 +1,121 @@
-/* Copyright (c) 2015-2016 MIT 6.005 course staff, all rights reserved.
+/*
+ * Copyright (c) 2015-2016 MIT 6.005 course staff, all rights reserved.
  * Redistribution of original or derived work requires permission of course staff.
  */
 package graph;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
- * An implementation of Graph.
- * 
- * <p>PS2 instructions: you MUST use the provided rep.
+ * Tests for ConcreteEdgesGraph.
+ *
+ * This class runs the GraphInstanceTest tests against ConcreteEdgesGraph, as
+ * well as tests for that particular implementation.
+ *
+ * Tests against the Graph spec should be in GraphInstanceTest.
  */
-public class ConcreteEdgesGraph implements Graph<String> {
-    
-    private final Set<String> vertices = new HashSet<>();
-    private final List<Edge> edges = new ArrayList<>();
-    
-    // Abstraction function:
-    //   TODO
-    // Representation invariant:
-    //   TODO
-    // Safety from rep exposure:
-    //   TODO
-    
-    // TODO constructor
-    
-    // TODO checkRep
-    
-    @Override public boolean add(String vertex) {
-        throw new RuntimeException("not implemented");
-    }
-    
-    @Override public int set(String source, String target, int weight) {
-        throw new RuntimeException("not implemented");
-    }
-    
-    @Override public boolean remove(String vertex) {
-        throw new RuntimeException("not implemented");
-    }
-    
-    @Override public Set<String> vertices() {
-        throw new RuntimeException("not implemented");
-    }
-    
-    @Override public Map<String, Integer> sources(String target) {
-        throw new RuntimeException("not implemented");
-    }
-    
-    @Override public Map<String, Integer> targets(String source) {
-        throw new RuntimeException("not implemented");
-    }
-    
-    // TODO toString()
-    
-}
+public class ConcreteEdgesGraphTest extends GraphInstanceTest {
 
-/**
- * TODO specification
- * Immutable.
- * This class is internal to the rep of ConcreteEdgesGraph.
- * 
- * <p>PS2 instructions: the specification and implementation of this class is
- * up to you.
- */
-class Edge {
-    
-    // TODO fields
-    
-    // Abstraction function:
-    //   TODO
-    // Representation invariant:
-    //   TODO
-    // Safety from rep exposure:
-    //   TODO
-    
-    // TODO constructor
-    
-    // TODO checkRep
-    
-    // TODO methods
-    
-    // TODO toString()
-    
+    private static final String VERTEX_1 = "v1";
+    private static final String VERTEX_2 = "v2";
+    private static final String VERTEX_3 = "v3";
+
+    private static final int WEIGHT_1 = 1;
+    private static final int WEIGHT_2 = 2;
+
+    /*
+     * Provide a ConcreteEdgesGraph for tests in GraphInstanceTest.
+     */
+    @Override
+    public Graph<String> emptyInstance() {
+        return new ConcreteEdgesGraph();
+    }
+
+    /*
+     * Testing ConcreteEdgesGraph...
+     */
+
+    // Testing strategy for ConcreteEdgesGraph.toString()
+    // num vertices = 0, 1, n
+    // num edges = 0, 1, n
+
+    // TODO tests for ConcreteEdgesGraph.toString()
+
+    // covers num vertices = 0
+    // num edges = 0
+    @Test
+    public void testToStringZeroVerticesZeroEdges() {
+        Graph<String> graph = emptyInstance();
+        String result = "";
+
+        assertEquals("expected empty string", result, graph.toString());
+    }
+
+    // covers num vertices = 1
+    @Test
+    public void testToStringOneVertex() {
+        Graph<String> graph = emptyInstance();
+        graph.add(VERTEX_1);
+        String result = "";
+
+        assertEquals("expected string", result, graph.toString());
+    }
+
+    // covers num vertices = n
+    // num edges = 1
+    @Test
+    public void testToStringNVerticesOneEdge() {
+        Graph<String> graph = emptyInstance();
+        graph.add(VERTEX_1);
+        graph.add(VERTEX_2);
+        graph.set(VERTEX_1, VERTEX_2, WEIGHT_1);
+
+        String result = "v1->v2(weight = 1)\n";
+
+        assertEquals("expected string", result, graph.toString());
+    }
+
+    // covers num edges = n
+    @Test
+    public void testToStringNEdges() {
+        Graph<String> graph = emptyInstance();
+        graph.add(VERTEX_1);
+        graph.add(VERTEX_2);
+        graph.add(VERTEX_3);
+        graph.set(VERTEX_1, VERTEX_2, WEIGHT_1);
+        graph.set(VERTEX_1, VERTEX_3, WEIGHT_2);
+
+        String expected = "v1->v2(weight = 1)\nv1->v3(weight = 2)\n";
+
+        assertEquals("expected string", expected, graph.toString());
+    }
+
+    /*
+     * Testing Edge...
+     */
+
+    // Testing strategy for Edge
+    // test getters
+    // test toString
+
+    // TODO tests for operations of Edge
+    // test getters
+    @Test
+    public void testGet() {
+        Edge edge = new Edge(VERTEX_1, VERTEX_2, WEIGHT_1);
+
+        assertEquals("expected string 'v2'", edge.getTarget(), "v2");
+        assertEquals("expected string 'v1'", edge.getSource(), "v1");
+    }
+
+    // test toString
+    @Test
+    public void testToString() {
+        Edge edge = new Edge(VERTEX_1, VERTEX_2, WEIGHT_1);
+        String expected = "v1->v2(weight = 1)";
+
+        assertEquals("expected string", expected, edge.toString());
+    }
 }
